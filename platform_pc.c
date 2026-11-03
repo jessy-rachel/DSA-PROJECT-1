@@ -113,7 +113,7 @@ int main(void) {
     }
 
     simulation_active = false;
-    printf("=== Final Results ===\n");
+    printf("  ~~~~ Final Results ~~~~\n");
     printf("Count: %d\n", (int)sram[COUNT]);
     printf("Sum: %d\n", (int)sram[SUM]);
     printf("Min: %d\n", (int)sram[MIN]);
