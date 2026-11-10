@@ -46,7 +46,7 @@ bool undo_update(int32_t index, int32_t new_value) {
     return true;
 }
 
-// Commit the work since the previous checkpoint.
+// discarding undo history (Stack) - resetting at checkpoint since update alr stored new values in FRAM
 bool undo_checkpoint(void) {
     if (!fram_write(COMMIT_ADDR, 1)) return false;
     if (!stack_clear()) return false;
