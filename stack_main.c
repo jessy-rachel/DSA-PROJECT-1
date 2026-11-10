@@ -60,6 +60,7 @@ static bool process_sample(void) {
     return undo_update(STEP, step + 1); // Update step LAST.
 }
 
+//one full simulation run of the 2000 samples 
 static bool run_one(unsigned seed, bool show_output) {
     srand(seed);
     initialize();
@@ -68,19 +69,19 @@ static bool run_one(unsigned seed, bool show_output) {
             power_failed = false; // Simulate power returning.
             if (!undo_recover()) continue; // Recovery may itself be interrupted.
         }
-        if (sram[STEP] >= NUM_SAMPLES) break;
+        if (sram[STEP] >= NUM_SAMPLES) break; // end of 2000 samples 
         if (!process_sample()) continue;
         if (sram[STEP] % CHECKPOINT_INTERVAL == 0) {
             if (!undo_checkpoint()) continue;
         }
-    }
+    } // once end of 2000
     simulation_active = false;
     int32_t count = fram_read(STATE_ADDR + COUNT);
     int32_t sum = fram_read(STATE_ADDR + SUM);
     int32_t min = fram_read(STATE_ADDR + MIN);
     int32_t max = fram_read(STATE_ADDR + MAX);
     bool correct = count == 2000 && sum == 1026639 && min == 7 && max == 1341;
-    if (show_output) {
+    if (show_output) { 
         printf("Count: %d\nSum: %d\nMin: %d\nMax: %d\n", count, sum, min, max);
         printf("Average: %d\n", count ? sum / count : 0);
         printf("FRAM writes: %u\nPower failures: %u\n", fram_write_count, failure_count);
@@ -89,16 +90,20 @@ static bool run_one(unsigned seed, bool show_output) {
     return correct;
 }
 
+//argc = argument count & argv = argument vector 
+//if ./stack_demo : argc is 1 and argv[0] is "./stack_demo"
+//if ./stack_demo test: argc is 2 and argv[1] ="Test" and argv[0] = "./stack_demo"
+
 int main(int argc, char *argv[]) {
-    if (argc > 1 && strcmp(argv[1], "test") == 0) {
-        for (unsigned seed = 1; seed <= 1000; seed++) {
-            if (!run_one(seed, false)) {
-                printf("FAIL at seed %u\n", seed);
+    if (argc > 1 && strcmp(argv[1], "test") == 0) { //if test asked 
+        for (unsigned seed = 1; seed <= 1000; seed++) { //running 1000 times as asked
+            if (!run_one(seed, false)) { //show_output = false --> doesnt display alll the values for all the seeds 
+                printf("FAIL at seed %u\n", seed); //incase our answers doesnt match w anser key - displays where failed 
                 return 1;
             }
         }
-        printf("PASS: All 1000 runs produced the correct answer.\n");
-    } else if (!run_one(42, true)) {
+        printf("PASS: All 1000 runs produced the correct answer.\n"); //only success or failure displayed during "Test" mode
+    } else if (!run_one(42, true)) { //IF no "test" mode asked, then displays all the values for one random seed 
         return 1;
     }
     return 0;
