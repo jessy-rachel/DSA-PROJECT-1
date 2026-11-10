@@ -16,6 +16,7 @@
 #define COUNT 4
 
 // FRAM layout: commit, top, five state values, then stack entries.
+//Here: TOP is not top of stack but no: of entries (indx +value)
 #define COMMIT_ADDR 0
 #define TOP_ADDR 1
 #define STATE_ADDR 2
