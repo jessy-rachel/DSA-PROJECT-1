@@ -45,6 +45,7 @@ static void initialize(void) {
 }
 
 // One vibration sample: log old values BEFORE writing new values.
+// undo_UPDATE for every data point (sum,max,min etc)
 static bool process_sample(void) {
     int32_t step = sram[STEP];
     int32_t sample = samples[step];
