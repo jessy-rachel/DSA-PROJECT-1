@@ -190,3 +190,11 @@ int main(void) {
     printf("  ~~~~ Dirty-Flag Results ~~~~\n");
     printf("Count: %d\n", (int)sram[COUNT]);
     printf("Sum: %d\n", (int)sram[SUM]);
+    printf("Min: %d\n", (int)sram[MIN]);
+printf("Max: %d\n", (int)sram[MAX]);
+printf("Average: %d\n", (int)(sram[SUM] / sram[COUNT]));
+printf("FRAM writes: %u\n", (unsigned)fram_write_count);
+printf("Power failures: %u\n", (unsigned)failure_count);
+
+return 0;
+}
