@@ -8,7 +8,7 @@ bool stack_is_full(void) {
     return fram_read(TOP_ADDR) >= MAX_ENTRIES;
 }
 
-//self note: bool return false - performs the actions and in case couldn't returns false 
+//self note: bool return false - performs the actions and, in case couldn't, returns false 
 // Save the old value BEFORE changing any live state.
 bool stack_push(int32_t index, int32_t old_value) {
     if (stack_is_full()) return false;
